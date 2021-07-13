@@ -1,5 +1,7 @@
 package com.sword.trailersdb;
 
+import src.main.java.com.sword.trailersdb.models.Enums;
+
 import java.util.ArrayList;
 import java.util.Date;
 
