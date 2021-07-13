@@ -4,18 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
-public class Actor {
+@Entity(name = "Actor")
+public class ActorModel {
     private @Id @GeneratedValue Long id;
     private String name;
     //private ArrayList<Movie> movies;
-
-    // Constructor
-    Actor() {}
-
-    Actor(String name) {
-        this.name = name;
-    }
 
     public void setId(Long id) {
         this.id = id;

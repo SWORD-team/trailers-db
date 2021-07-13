@@ -1,4 +1,4 @@
-package src.main.java.com.sword.trailersdb.controllers;
+package com.sword.trailersdb.controllers;
 
 import com.sword.trailersdb.exceptions.MovieNotFoundException;
 import com.sword.trailersdb.models.Movie;
