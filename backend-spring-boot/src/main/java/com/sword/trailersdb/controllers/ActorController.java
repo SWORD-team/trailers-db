@@ -58,7 +58,7 @@ class ActorController {
     }
 
     // DELETE
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/actors/{id}")
     void deleteActor(@PathVariable Long id) {
         repository.deleteById(id);
     }
