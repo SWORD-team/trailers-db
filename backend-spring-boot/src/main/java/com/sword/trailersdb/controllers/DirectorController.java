@@ -1,6 +1,8 @@
 package com.sword.trailersdb.controllers;
 
+import com.sword.trailersdb.data.models.ActorModel;
 import com.sword.trailersdb.data.models.DirectorModel;
+import com.sword.trailersdb.exceptions.ElementNotFoundException;
 import com.sword.trailersdb.repositories.DirectorRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,29 +25,30 @@ class DirectorController {
 
     //GET ALL
     @GetMapping("/directors")
-    List<Director> all() {
+    List<DirectorModel> all() {
         return repository.findAll();
     }
     // end::get-aggregate-root[]
 
     //POST
     @PostMapping("/directors")
-    Director newDirector(@RequestBody Director newDirector) {
+    DirectorModel newDirector(@RequestBody DirectorModel newDirector) {
         return repository.save(newDirector);
     }
 
     //GET 1
     // Single item
     @GetMapping("/directors/{id}")
-    Director one(@PathVariable Long id) {
+    DirectorModel one(@PathVariable Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new DirectorNotFoundException(id));
+                .orElseThrow(() -> new ElementNotFoundException("", id));
     }
 
     //PUT
     @PutMapping("/directors/{id}")
-    Director replaceDirector(@RequestBody Director newDirector, @PathVariable Long
+    DirectorModel replaceDirector(@RequestBody DirectorModel newDirector, @PathVariable Long
             id) {
+        ActorModel newActor = new ActorModel();
         return repository.findById(id)
                 .map(director -> {
                     director.setName(newActor.getName());

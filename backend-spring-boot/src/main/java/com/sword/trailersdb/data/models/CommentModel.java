@@ -1,6 +1,6 @@
 package com.sword.trailersdb.data.models;
 
-import org.hibernate.annotations.CreationTimestamp;
+//import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +15,7 @@ public class CommentModel {
     @Column(nullable = false)
     private Long rating;
 
-    @CreationTimestamp
+    //@CreationTimestamp
     @Column(nullable = false)
     private Date datePosted;
 
@@ -24,9 +24,9 @@ public class CommentModel {
     private UserModel user;
 
     // Todo: Finish relationship when Movie model is finished
-    // @OneToOne
-    // @JoinColumn(name="movie_id", nullable = false)
-    // private Movie movie;
+    @OneToOne
+    @JoinColumn(name="movie_id", nullable = false)
+    private MovieModel movie;
 
     public CommentModel() {}
 

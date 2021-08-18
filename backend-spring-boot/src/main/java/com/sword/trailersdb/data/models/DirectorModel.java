@@ -1,14 +1,17 @@
 package com.sword.trailersdb.data.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity(name = "Director")
 public class DirectorModel {
     private @Id @GeneratedValue Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    @OneToMany(targetEntity=MovieModel.class, fetch=FetchType.EAGER)
     private List<MovieModel> movies;
 
 
@@ -28,6 +31,8 @@ public class DirectorModel {
     public List<MovieModel> getMovies() {
         return movies;
     }
-    //public void addMovies(ArrayList<MovieModel> movies) {this.movies = movies;}
+    public void addMovies(ArrayList<MovieModel> movies) {
+        this.movies = movies;
+    }
 
 }

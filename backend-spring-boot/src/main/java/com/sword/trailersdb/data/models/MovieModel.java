@@ -1,24 +1,40 @@
 package com.sword.trailersdb.data.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Entity(name = "Movie")
 public class MovieModel {
 
-    int id;
+    private @Id @GeneratedValue int id;
+    @Column(nullable = false)
     String title;
+    @Column(nullable = false)
     String trailer;
+    @Column(nullable = false)
     String image;
+    @Column(nullable = false)
     // Language language;
     // Language subtitle;
     String duration;
+    @Column(nullable = false)
     String description;
+    @Column(nullable = false)
     Date releaseDate;
+    @Column(nullable = false)
     boolean sfa;
     // Genre genre;
+    @Column(nullable = false)
     ArrayList<DirectorModel> directors;
+    @Column(nullable = false)
     ArrayList<ActorModel> actors;
+    @Column(nullable = false)
     float rating;
+    @Column(nullable = false)
     int displays;
     // ArrayList<Comment> comments;
 
