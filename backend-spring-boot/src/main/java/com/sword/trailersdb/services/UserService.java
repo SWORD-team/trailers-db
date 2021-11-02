@@ -6,6 +6,7 @@ import com.sword.trailersdb.exceptions.ElementNotFoundException;
 import com.sword.trailersdb.data.mappers.UserMapper;
 import com.sword.trailersdb.data.models.UserModel;
 import com.sword.trailersdb.repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,14 @@ public class UserService {
         return mapper.toDto(this.getUserFromRepo(id));
     }
 
+    public UserModel getUserByEmail(String email) {
+        try {
+            return repository.findByEmail(email).get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public UserDto modifyUser(Long id, InputUserDto editedUserDto) {
 
         // Fetch user by id
@@ -41,12 +50,6 @@ public class UserService {
         return mapper.toDto(userFromDb);
     }
 
-    public String loginUser(){
-        String token = "";
-        return "{" +
-                "'auth: '"+ token +
-                "}";
-    }
 
     public UserDto createUser(InputUserDto editedUserDto){
         if (repository.findByEmail(editedUserDto.getEmail()).isPresent()){

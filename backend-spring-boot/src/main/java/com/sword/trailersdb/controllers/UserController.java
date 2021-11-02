@@ -6,10 +6,12 @@ import com.sword.trailersdb.data.models.UserModel;
 import com.sword.trailersdb.services.UserService;
 import com.sword.trailersdb.utilities.constants.Endpoints;
 import io.jsonwebtoken.Jwts;
+import org.mapstruct.control.MappingControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -37,17 +39,36 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.modifyUser(id, editedUser));
     }
 
-    @PostMapping("/users")
-    ResponseEntity<UserDto> registerUser(@RequestBody InputUserDto editedUser) {
-        //String token = getJWTToken(editedUser.getEmail());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.createUser(editedUser));
+    @PostMapping("/register")
+    ResponseEntity<String> register(@RequestBody InputUserDto editedUser) {
+        UserModel user = service.getUserByEmail(editedUser.getEmail());
+        if (user != null){
+            return new ResponseEntity<String>("User already exists", HttpStatus.BAD_REQUEST);
+        } else {
+            service.createUser(editedUser);
+            return new ResponseEntity<String>("User created", HttpStatus.OK);
+        }
     }
 
-    @PostMapping("/user")
-    ResponseEntity<UserDto> login(@RequestBody InputUserDto editedUser) {
-        String token = getJWTToken(editedUser.getEmail());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.createUser(editedUser));
+    @PostMapping("/login")
+    ResponseEntity<String> login(@RequestBody InputUserDto editedUser) {
+
+        UserModel user = service.getUserByEmail(editedUser.getEmail());
+        if (user != null){
+            if (new BCryptPasswordEncoder().matches(editedUser.getPassword(), user.getPassword())){
+                String token = getJWTToken(user.getEmail());
+                return new ResponseEntity<String>("User logged, token: " + token, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<String>("Incorrect password", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<String>("User not exists", HttpStatus.BAD_REQUEST);
+        }
+
     }
+
+
+
 
     private String getJWTToken(String username) {
         String secretKey = "mySecretKey";
