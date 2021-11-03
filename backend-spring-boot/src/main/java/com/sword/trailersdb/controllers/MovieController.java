@@ -33,13 +33,15 @@ class MovieController {
 
     //GET 1
     // Single item
+    @CrossOrigin(origins="*")
     @GetMapping("/movies/{id}")
-    MovieModel one(@PathVariable Long id) {
+    MovieModel one(@PathVariable int id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ElementNotFoundException("", id));
+                .orElseThrow(() -> new ElementNotFoundException("", (long) id));
     }
 
     //PUT
+    @CrossOrigin(origins="*")
     @PutMapping("/movies/{id}")
     MovieModel replaceMovie(@RequestBody MovieModel newMovie, @PathVariable Long id) {
 
@@ -47,8 +49,9 @@ class MovieController {
     }
 
     //DELETE
+    @CrossOrigin(origins="*")
     @DeleteMapping("/movies/{id}")
-    void deleteMovie(@PathVariable Long id) {
+    void deleteMovie(@PathVariable int id) {
         repository.deleteById(id);
     }
 }

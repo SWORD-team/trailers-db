@@ -32,16 +32,19 @@ public class UserController {
         this.service = service;
     }
 
+    @CrossOrigin(origins="*")
     @GetMapping(Endpoints.SPECIFIC_USERS)
     ResponseEntity<UserDto> getUser(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getUser(id));
     }
 
+    @CrossOrigin(origins="*")
     @PutMapping(Endpoints.SPECIFIC_USERS)
     ResponseEntity<UserDto> editUser(@RequestBody InputUserDto editedUser, @PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.modifyUser(id, editedUser));
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/register")
     ResponseEntity<String> register(@RequestBody InputUserDto editedUser) {
         UserModel user = service.getUserByEmail(editedUser.getEmail());
