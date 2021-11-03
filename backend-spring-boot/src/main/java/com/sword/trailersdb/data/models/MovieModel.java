@@ -18,8 +18,6 @@ public class MovieModel {
     @Column(nullable = false)
     String image;
     @Column(nullable = false)
-    // Language language;
-    // Language subtitle;
     String duration;
     @Column(nullable = false)
     String description;
@@ -27,7 +25,8 @@ public class MovieModel {
     Date releaseDate;
     @Column(nullable = false)
     boolean sfa;
-    // Genre genre;
+    @Column(nullable = false)
+    String genre;
     @Column(nullable = false)
     ArrayList<DirectorModel> directors;
     @Column(nullable = false)
@@ -132,5 +131,12 @@ public class MovieModel {
 
     public void setDisplays(int displays) {
         this.displays = displays;
+    }
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

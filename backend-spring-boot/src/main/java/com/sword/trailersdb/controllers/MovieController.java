@@ -17,6 +17,7 @@ class MovieController {
     }
 
     //GET ALL
+    @CrossOrigin(origins="*")
     @GetMapping("/movies")
     List<MovieModel> all() {
         return repository.findAll();
@@ -24,6 +25,7 @@ class MovieController {
 
 
     //POST
+    @CrossOrigin(origins="*")
     @PostMapping("/movies")
     MovieModel newMovie(@RequestBody MovieModel newMovie) {
         return repository.save(newMovie);

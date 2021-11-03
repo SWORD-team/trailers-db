@@ -48,10 +48,10 @@ class DirectorController {
     @PutMapping("/directors/{id}")
     DirectorModel replaceDirector(@RequestBody DirectorModel newDirector, @PathVariable Long
             id) {
-        ActorModel newActor = new ActorModel();
+        //ActorModel newActor = new ActorModel();
         return repository.findById(id)
                 .map(director -> {
-                    director.setName(newActor.getName());
+                    director.setName(newDirector.getName());
                     // director.setMovies(newActor.getMovies());
                     return repository.save(director);
                 })

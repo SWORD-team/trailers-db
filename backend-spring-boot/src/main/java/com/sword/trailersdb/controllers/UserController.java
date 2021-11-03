@@ -6,8 +6,9 @@ import com.sword.trailersdb.data.models.UserModel;
 import com.sword.trailersdb.services.UserService;
 import com.sword.trailersdb.utilities.constants.Endpoints;
 import io.jsonwebtoken.Jwts;
-import org.mapstruct.control.MappingControl;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -15,7 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,14 +53,17 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins="*")
     @PostMapping("/login")
-    ResponseEntity<String> login(@RequestBody InputUserDto editedUser) {
+    HttpEntity<? extends Serializable> login(@RequestBody InputUserDto editedUser) {
 
         UserModel user = service.getUserByEmail(editedUser.getEmail());
         if (user != null){
             if (new BCryptPasswordEncoder().matches(editedUser.getPassword(), user.getPassword())){
                 String token = getJWTToken(user.getEmail());
-                return new ResponseEntity<String>("User logged, token: " + token, HttpStatus.OK);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("token", token);
+                return new ResponseEntity<HashMap>(map, HttpStatus.OK);
             } else {
                 return new ResponseEntity<String>("Incorrect password", HttpStatus.BAD_REQUEST);
             }
@@ -88,7 +94,7 @@ public class UserController {
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 
-        return "Bearer " + token;
+        return token;
     }
 
 }
